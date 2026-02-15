@@ -1,12 +1,11 @@
 package ali.barkbot.service;
 
-import ali.barkbot.common.Constants;
+import ali.barkbot.command.CommandRouter;
 import ali.barkbot.config.AppProps;
 import com.pengrad.telegrambot.ExceptionHandler;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.Update;
-import com.pengrad.telegrambot.request.SendMessage;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,10 +20,11 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class Bot {
+public class BotService {
 
     private final AppProps appProps;
     private final ExecutorService executorService;
+    private final CommandRouter commandRouter;
     private TelegramBot telegramBot;
 
     @PostConstruct
@@ -54,7 +54,7 @@ public class Bot {
 
             for (Update update : updates) {
                 futures.add(CompletableFuture
-                        .runAsync(() -> handleUpdate(update), executorService)
+                        .runAsync(() -> commandRouter.route(update, telegramBot), executorService)
                         .orTimeout(appProps.getThreadTimeoutMs(), TimeUnit.MILLISECONDS)
                         .handleAsync((result, exception) -> {
                             if (exception != null) {
@@ -70,12 +70,5 @@ public class Bot {
 
             return UpdatesListener.CONFIRMED_UPDATES_ALL;
         };
-    }
-
-    private void handleUpdate(Update update) {
-        telegramBot.execute(new SendMessage(update.message().from().id(), Constants.START_MESSAGE));
-        log.info("Sent start message to user `{}` with id `{}`",
-                update.message().from().username(),
-                update.message().from().id());
     }
 }
