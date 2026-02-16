@@ -22,7 +22,7 @@ public class UnknownCommandHandler implements CommandHandler {
 
     @Override
     public void handle(Update update, TelegramBot telegramBot) {
-        Long userId = update.message().from().id();
+        Long pid = update.message().from().id();
         String username = update.message().from().username();
 
         String availableCommands = commandHandlers.stream()
@@ -31,8 +31,8 @@ public class UnknownCommandHandler implements CommandHandler {
                 .collect(Collectors.joining("\n"));
         String message = Messages.UNKNOWN_COMMAND_MESSAGE.formatted(availableCommands);
 
-        telegramBot.execute(BotUtils.sendMessage(userId, message));
-        log.info("Sent unknown command message to user `{}` with id `{}`", username, userId);
+        telegramBot.execute(BotUtils.sendMessage(pid, message));
+        log.info("Sent {} message to user `{}` with id `{}`", Commands.UNKNOWN, username, pid);
     }
 
     @Override

@@ -1,0 +1,18 @@
+<component name="ProjectRunConfigurationManager">
+    <configuration default="false" name="compose.yaml: Compose Deployment" type="docker-deploy"
+                   factoryName="docker-compose.yml" activateToolWindowBeforeRun="false" server-name="Docker">
+        <deployment type="docker-compose.yml">
+            <settings>
+                <option name="envFilePath" value="$PROJECT_DIR$/.env"/>
+                <option name="envFilePaths">
+                    <list>
+                        <option value="$PROJECT_DIR$/.env"/>
+                    </list>
+                </option>
+                <option name="removeVolumesOnComposeDown" value="true"/>
+                <option name="sourceFilePath" value="compose.yaml"/>
+            </settings>
+        </deployment>
+        <method v="2"/>
+    </configuration>
+</component>

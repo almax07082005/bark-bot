@@ -1,6 +1,21 @@
 spring:
   application:
     name: bark-bot
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: 'jdbc:postgresql://localhost:${DATASOURCE_HOST_PORT}/bark-bot-db'
+    username: ${DATASOURCE_USERNAME}
+    password: ${DATASOURCE_PASSWORD}
+  flyway:
+    url: 'jdbc:postgresql://localhost:${DATASOURCE_HOST_PORT}/bark-bot-db'
+    user: ${DATASOURCE_USERNAME}
+    password: ${DATASOURCE_PASSWORD}
+    locations: classpath:db
+    baseline-on-migrate: true
+    validate-on-migrate: true
 app:
   bot-token: ${DEV_BOT_TOKEN}
   thread-pool-size: ${THREAD_POOL_SIZE}

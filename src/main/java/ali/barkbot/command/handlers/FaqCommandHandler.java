@@ -11,15 +11,16 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component(Commands.FAQ)
+// TODO faq must be implemented with buttons
 public class FaqCommandHandler implements CommandHandler {
 
     @Override
     public void handle(Update update, TelegramBot telegramBot) {
-        Long userId = update.message().from().id();
+        Long pid = update.message().from().id();
         String username = update.message().from().username();
 
-        telegramBot.execute(BotUtils.sendMessage(userId, Messages.FAQ_MESSAGE));
-        log.info("Sent FAQ message to user `{}` with id `{}`", username, userId);
+        telegramBot.execute(BotUtils.sendMessage(pid, Messages.FAQ_MESSAGE));
+        log.info("Sent {} message to user `{}` with id `{}`", Commands.FAQ, username, pid);
     }
 
     @Override

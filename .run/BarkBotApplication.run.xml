@@ -1,0 +1,19 @@
+<component name="ProjectRunConfigurationManager">
+    <configuration default="false" name="BarkBotApplication" type="SpringBootApplicationConfigurationType"
+                   factoryName="Spring Boot" activateToolWindowBeforeRun="false" nameIsGenerated="true">
+        <option name="ACTIVE_PROFILES" value="local"/>
+        <option name="envFilePaths">
+            <option value="$PROJECT_DIR$/.env"/>
+        </option>
+        <module name="bark-bot"/>
+        <selectedOptions>
+            <option name="environmentVariables"/>
+        </selectedOptions>
+        <option name="SPRING_BOOT_MAIN_CLASS" value="ali.barkbot.BarkBotApplication"/>
+        <method v="2">
+            <option name="RunConfigurationTask" enabled="true" run_configuration_name="bark-bot [clean,install]"
+                    run_configuration_type="MavenRunConfiguration"/>
+            <option name="Make" enabled="true"/>
+        </method>
+    </configuration>
+</component>

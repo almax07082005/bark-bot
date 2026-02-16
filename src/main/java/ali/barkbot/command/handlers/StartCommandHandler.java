@@ -3,23 +3,36 @@ package ali.barkbot.command.handlers;
 import ali.barkbot.command.CommandHandler;
 import ali.barkbot.constants.Commands;
 import ali.barkbot.constants.Messages;
+import ali.barkbot.entity.model.CameFrom;
+import ali.barkbot.mapper.UserMapper;
+import ali.barkbot.service.UserService;
 import ali.barkbot.utils.BotUtils;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.Update;
+import com.pengrad.telegrambot.model.User;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 @Slf4j
+@RequiredArgsConstructor
 @Component(Commands.START)
+// FIXME handle different cameFrom with text after /start command
 public class StartCommandHandler implements CommandHandler {
+
+    private final UserService userService;
+    private final UserMapper userMapper;
 
     @Override
     public void handle(Update update, TelegramBot telegramBot) {
-        Long userId = update.message().from().id();
-        String username = update.message().from().username();
+        User user = update.message().from();
+        Long pid = user.id();
+        String username = user.username();
 
-        telegramBot.execute(BotUtils.sendMessage(userId, Messages.START_MESSAGE));
-        log.info("Sent start message to user `{}` with id `{}`", username, userId);
+        userService.save(userMapper.toEntity(user, CameFrom.Other));
+        telegramBot.execute(BotUtils.sendMessage(pid, Messages.START_MESSAGE));
+
+        log.info("Sent {} message to user `{}` with pid `{}`", Commands.START, username, pid);
     }
 
     @Override
