@@ -1,5 +1,8 @@
 package ali.barkbot.command;
 
+import ali.barkbot.constants.Commands;
+import ali.barkbot.model.CameFrom;
+import ali.barkbot.model.CommandString;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.Update;
 import lombok.RequiredArgsConstructor;
@@ -15,18 +18,18 @@ public class CommandRouter {
     private final CommandHandler unknown;
 
     public void route(Update update, TelegramBot telegramBot) {
-        String command = extractCommand(update);
+        CommandString commandString = extractCommand(update);
 
-        if (command != null) {
-            commandRegistry.getHandler(command)
+        if (commandString != null) {
+            commandRegistry.getHandler(commandString.command())
                     .ifPresentOrElse(
                             handler -> {
                                 log.debug("Routing command {} to handler {} (bean: {})",
-                                        command, handler.getClass().getSimpleName(), handler.getCommand());
+                                        commandString, handler.getClass().getSimpleName(), handler.getCommand());
                                 handler.handle(update, telegramBot);
                             },
                             () -> {
-                                log.debug("Unknown command: {}", command);
+                                log.debug("Unknown command: {}", commandString);
                                 unknown.handle(update, telegramBot);
                             }
                     );
@@ -36,16 +39,30 @@ public class CommandRouter {
         }
     }
 
-    private String extractCommand(Update update) {
+    private CommandString extractCommand(Update update) {
         if (update.message() == null || update.message().text() == null) {
             return null;
         }
 
-        String text = update.message().text().trim();
+        String text = update.message().text();
         if (!text.startsWith("/")) {
             return null;
         }
 
-        return text;
+        String[] split = text.split(" ");
+        if ((!Commands.START.equals(split[0]) && split.length != 1) || split.length > 2) {
+            return null;
+        }
+        if (split.length == 1) {
+            return CommandString.builder()
+                    .command(split[0])
+                    .cameFrom(CameFrom.Other)
+                    .build();
+        }
+
+        return CommandString.builder()
+                .command(split[0])
+                .cameFrom(CameFrom.fromString(split[1]))
+                .build();
     }
 }

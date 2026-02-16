@@ -14,7 +14,6 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @RequiredArgsConstructor
 @Component(Commands.FAQ)
-// TODO faq must be implemented with buttons
 public class FaqCommandHandler implements CommandHandler {
 
     private final AppProps appProps;

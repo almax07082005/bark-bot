@@ -4,8 +4,8 @@ import ali.barkbot.command.CommandHandler;
 import ali.barkbot.config.AppProps;
 import ali.barkbot.constants.Commands;
 import ali.barkbot.constants.Messages;
-import ali.barkbot.entity.model.CameFrom;
 import ali.barkbot.mapper.UserMapper;
+import ali.barkbot.model.CameFrom;
 import ali.barkbot.service.UserService;
 import ali.barkbot.utils.BotUtils;
 import com.pengrad.telegrambot.TelegramBot;
@@ -18,7 +18,6 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @RequiredArgsConstructor
 @Component(Commands.START)
-// FIXME handle different cameFrom with text after /start command
 public class StartCommandHandler implements CommandHandler {
 
     private final UserService userService;
@@ -31,7 +30,13 @@ public class StartCommandHandler implements CommandHandler {
         Long pid = user.id();
         String username = user.username();
 
-        userService.save(userMapper.toEntity(user, CameFrom.Other));
+        String[] split = update.message().text().split(" ");
+        CameFrom cameFrom = CameFrom.Other;
+        if (split.length > 1) {
+            cameFrom = CameFrom.fromString(split[1]);
+        }
+
+        userService.save(userMapper.toEntity(user, cameFrom));
         telegramBot.execute(BotUtils.sendMessageWithSupportButton(pid, Messages.START_MESSAGE,
                 appProps.getSupportUsername(), appProps.getSupportMessageTemplate()));
 

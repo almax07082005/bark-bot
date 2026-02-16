@@ -1,13 +1,12 @@
 package ali.barkbot.entity;
 
-import ali.barkbot.entity.model.CameFrom;
+import ali.barkbot.model.CameFrom;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -45,7 +44,6 @@ public class UserEntity {
     @Column(name = "came_from", nullable = false)
     private CameFrom cameFrom;
 
-    @Setter(AccessLevel.NONE)
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
