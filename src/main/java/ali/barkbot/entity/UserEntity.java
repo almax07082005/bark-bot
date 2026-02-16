@@ -7,6 +7,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,7 +29,7 @@ import java.time.LocalDateTime;
 public class UserEntity {
 
     @Id
-    @Column(name = "pid", nullable = false, unique = true)
+    @Column(name = "pid", nullable = false, unique = true, updatable = false)
     private Long pid;
 
     @Column(name = "username", unique = true)
@@ -44,8 +45,9 @@ public class UserEntity {
     @Column(name = "came_from", nullable = false)
     private CameFrom cameFrom;
 
+    @Setter(AccessLevel.NONE)
     @CreationTimestamp
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
