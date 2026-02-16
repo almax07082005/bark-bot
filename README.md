@@ -18,3 +18,4 @@
     1. Add new Maven configuration with command `clean install`
     2. Add `clean install` to Before launch section of main configuration
     3. Add `.env` file to Environment variables section of main configuration
+    4. Add local profile to active profiles section of main configuration

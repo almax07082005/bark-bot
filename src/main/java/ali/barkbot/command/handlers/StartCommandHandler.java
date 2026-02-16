@@ -15,11 +15,10 @@ public class StartCommandHandler implements CommandHandler {
 
     @Override
     public void handle(Update update, TelegramBot telegramBot) {
-        long userId = update.message().from().id();
+        Long userId = update.message().from().id();
         String username = update.message().from().username();
 
         telegramBot.execute(BotUtils.sendMessage(userId, Messages.START_MESSAGE));
-
         log.info("Sent start message to user `{}` with id `{}`", username, userId);
     }
 
@@ -30,6 +29,6 @@ public class StartCommandHandler implements CommandHandler {
 
     @Override
     public String getDescription() {
-        return "Показать информацию о продукте и цены";
+        return "Перейти в начало";
     }
 }

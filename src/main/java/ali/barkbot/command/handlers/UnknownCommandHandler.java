@@ -2,6 +2,7 @@ package ali.barkbot.command.handlers;
 
 import ali.barkbot.command.CommandHandler;
 import ali.barkbot.constants.Commands;
+import ali.barkbot.constants.Messages;
 import ali.barkbot.utils.BotUtils;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.Update;
@@ -21,25 +22,16 @@ public class UnknownCommandHandler implements CommandHandler {
 
     @Override
     public void handle(Update update, TelegramBot telegramBot) {
-        long userId = update.message().from().id();
+        Long userId = update.message().from().id();
         String username = update.message().from().username();
 
         String availableCommands = commandHandlers.stream()
                 .filter(handler -> !(handler instanceof UnknownCommandHandler))
                 .map(handler -> handler.getCommand() + " — " + handler.getDescription())
                 .collect(Collectors.joining("\n"));
-
-        String message = """
-                Извините, я не понял эту команду. 🤔
-                
-                Доступные команды:
-                %s
-                
-                Или просто напишите ваш вопрос — менеджер ответит вам в ближайшее время!
-                """.formatted(availableCommands);
+        String message = Messages.UNKNOWN_COMMAND_MESSAGE.formatted(availableCommands);
 
         telegramBot.execute(BotUtils.sendMessage(userId, message));
-
         log.info("Sent unknown command message to user `{}` with id `{}`", username, userId);
     }
 

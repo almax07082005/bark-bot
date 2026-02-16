@@ -15,11 +15,10 @@ public class FaqCommandHandler implements CommandHandler {
 
     @Override
     public void handle(Update update, TelegramBot telegramBot) {
-        long userId = update.message().from().id();
+        Long userId = update.message().from().id();
         String username = update.message().from().username();
 
         telegramBot.execute(BotUtils.sendMessage(userId, Messages.FAQ_MESSAGE));
-
         log.info("Sent FAQ message to user `{}` with id `{}`", username, userId);
     }
 
@@ -30,6 +29,6 @@ public class FaqCommandHandler implements CommandHandler {
 
     @Override
     public String getDescription() {
-        return "Часто задаваемые вопросы";
+        return "Посмотреть базу знаний";
     }
 }
