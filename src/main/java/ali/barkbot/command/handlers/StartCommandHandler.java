@@ -1,6 +1,7 @@
 package ali.barkbot.command.handlers;
 
 import ali.barkbot.command.CommandHandler;
+import ali.barkbot.config.AppProps;
 import ali.barkbot.constants.Commands;
 import ali.barkbot.constants.Messages;
 import ali.barkbot.entity.model.CameFrom;
@@ -22,6 +23,7 @@ public class StartCommandHandler implements CommandHandler {
 
     private final UserService userService;
     private final UserMapper userMapper;
+    private final AppProps appProps;
 
     @Override
     public void handle(Update update, TelegramBot telegramBot) {
@@ -30,7 +32,8 @@ public class StartCommandHandler implements CommandHandler {
         String username = user.username();
 
         userService.save(userMapper.toEntity(user, CameFrom.Other));
-        telegramBot.execute(BotUtils.sendMessage(pid, Messages.START_MESSAGE));
+        telegramBot.execute(BotUtils.sendMessageWithSupportButton(pid, Messages.START_MESSAGE,
+                appProps.getSupportUsername(), appProps.getSupportMessageTemplate()));
 
         log.info("Sent {} message to user `{}` with pid `{}`", Commands.START, username, pid);
     }

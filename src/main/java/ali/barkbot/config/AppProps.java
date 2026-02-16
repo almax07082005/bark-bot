@@ -12,4 +12,6 @@ public class AppProps {
     private String botToken;
     private Integer threadPoolSize;
     private Long threadTimeoutMs;
+    private String supportUsername;
+    private String supportMessageTemplate;
 }

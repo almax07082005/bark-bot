@@ -1,6 +1,7 @@
 package ali.barkbot.command.handlers;
 
 import ali.barkbot.command.CommandHandler;
+import ali.barkbot.config.AppProps;
 import ali.barkbot.constants.Commands;
 import ali.barkbot.constants.Messages;
 import ali.barkbot.utils.BotUtils;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 public class UnknownCommandHandler implements CommandHandler {
 
     private final List<CommandHandler> commandHandlers;
+    private final AppProps appProps;
 
     @Override
     public void handle(Update update, TelegramBot telegramBot) {
@@ -31,7 +33,8 @@ public class UnknownCommandHandler implements CommandHandler {
                 .collect(Collectors.joining("\n"));
         String message = Messages.UNKNOWN_COMMAND_MESSAGE.formatted(availableCommands);
 
-        telegramBot.execute(BotUtils.sendMessage(pid, message));
+        telegramBot.execute(BotUtils.sendMessageWithSupportButton(pid, message,
+                appProps.getSupportUsername(), appProps.getSupportMessageTemplate()));
         log.info("Sent {} message to user `{}` with id `{}`", Commands.UNKNOWN, username, pid);
     }
 

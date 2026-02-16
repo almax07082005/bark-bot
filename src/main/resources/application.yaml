@@ -20,3 +20,5 @@ app:
   bot-token: ${PROD_BOT_TOKEN}
   thread-pool-size: ${THREAD_POOL_SIZE}
   thread-timeout-ms: ${THREAD_TIMEOUT_MS}
+  support-username: ${SUPPORT_USERNAME}
+  support-message-template: ${SUPPORT_MESSAGE_TEMPLATE}
