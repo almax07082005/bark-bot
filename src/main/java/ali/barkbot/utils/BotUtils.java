@@ -11,6 +11,17 @@ import java.nio.charset.StandardCharsets;
 
 public final class BotUtils {
 
+    public static SendMessage sendMessage(Long chatId, String text) {
+        return new SendMessage(chatId, text)
+                .parseMode(ParseMode.Markdown);
+    }
+
+    public static SendMessage sendMessageWithKeyboardMarkup(Long chatId, String text, InlineKeyboardMarkup markup) {
+        return new SendMessage(chatId, text)
+                .parseMode(ParseMode.Markdown)
+                .replyMarkup(markup);
+    }
+
     public static SendMessage sendMessageWithSupportButton(Long chatId, String text,
                                                            String supportUsername, String messageTemplate) {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
@@ -25,5 +36,11 @@ public final class BotUtils {
         return new SendMessage(chatId, text)
                 .parseMode(ParseMode.Markdown)
                 .replyMarkup(inlineKeyboardMarkup);
+    }
+
+    public static String encodeOrderTextForDeepLink(String orderText) {
+        return URLEncoder.encode(orderText, StandardCharsets.UTF_8)
+                .replace("+", "%20")
+                .replace("\n", "%0A");
     }
 }

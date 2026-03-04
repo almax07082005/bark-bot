@@ -161,4 +161,86 @@ public final class Messages {
             
             Если у вас есть вопросы или нужна помощь — напишите нам, и мы с радостью ответим!
             """;
+
+    public static final String ORDER_CHOOSE_FRACTION = """
+            🛒 Быстрый заказ
+            Соберём заявку за 30 секунд.
+            
+            Выберите фракцию 👇
+            (цена указана за мешок 60 л)
+            """;
+
+    public static final String ORDER_FRACTION_CONFIRMED = """
+            ✅ **Фракция выбрана:** %s см (%s)
+            
+            Теперь укажите примерное количество мешков.
+            """;
+
+    public static final String ORDER_ASK_QUANTITY = """
+            **Сколько мешков 60 л нужно (примерно)?**
+            
+            Мы автоматически добавим **+10% запас** на усадку/неровности слоя.
+            Пример: 20
+            """;
+
+    public static final String ORDER_QUANTITY_CONFIRMED = """
+            ✅ Принято: **%d мешков**
+            
+            С запасом +10%% получится: **%d мешков**
+            """;
+
+    public static final String ORDER_QUANTITY_ERROR_NOT_NUMBER = """
+            Пожалуйста, введите **только число** (например: 20).
+            """;
+
+    public static final String ORDER_QUANTITY_ERROR_RANGE = """
+            Введите количество от **1 до 999**.
+            """;
+
+    public static final String ORDER_ASK_DELIVERY = """
+            **Как удобнее получить заказ?**
+            
+            Выберите вариант 👇
+            (Детали доставки/самовывоза менеджер уточнит в переписке)
+            """;
+
+    public static final String ORDER_ASK_ADDRESS = """
+            📍 **Напишите город и адрес доставки** (можно кратко).
+            
+            Пример: Москва, Нагатинская 12к2
+            """;
+
+    public static final String ORDER_ADDRESS_ERROR = """
+            Пожалуйста, напишите адрес чуть подробнее (город + улица/дом).
+            """;
+
+    public static final String ORDER_CONFIRM_HEADER = """
+            ✅ **Проверьте заявку — так она уйдёт менеджеру:**
+            """;
+
+    public static final String ORDER_CONFIRM_BODY = """
+            Здравствуйте! Хочу оформить заказ на кору лиственницы «Золото Сибири».
+            
+            Фракция: %s см (%s)
+            Количество: %d мешков (60 л)
+            Запас +10%%: добавлено к %d мешкам
+            Получение: %s
+            Адрес (если доставка): %s
+            """;
+
+    public static final String ORDER_CONFIRM_FOOTER = """
+            **Нажмите кнопку ниже, чтобы отправить менеджеру:** 👇
+            """;
+
+    public static final String ORDER_EDIT_MENU = """
+            **Что хотите изменить?**
+            """;
+
+    public static final String ORDER_CANCELLED = """
+            ❌ Ок, отменил оформление.
+            
+            Если захотите оформить снова — используйте команду **/order**.
+            """;
+
+    public static final String ORDER_ADDRESS_NONE = "—";
 }

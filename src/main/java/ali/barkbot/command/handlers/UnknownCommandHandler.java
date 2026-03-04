@@ -24,7 +24,7 @@ public class UnknownCommandHandler implements CommandHandler {
 
     @Override
     public void handle(Update update, TelegramBot telegramBot) {
-        Long pid = update.message().from().id();
+        Long chatId = update.message().from().id();
         String username = update.message().from().username();
 
         String availableCommands = commandHandlers.stream()
@@ -33,9 +33,9 @@ public class UnknownCommandHandler implements CommandHandler {
                 .collect(Collectors.joining("\n"));
         String message = Messages.UNKNOWN_COMMAND_MESSAGE.formatted(availableCommands);
 
-        telegramBot.execute(BotUtils.sendMessageWithSupportButton(pid, message,
+        telegramBot.execute(BotUtils.sendMessageWithSupportButton(chatId, message,
                 appProps.getSupportUsername(), appProps.getSupportMessageTemplate()));
-        log.info("Sent {} message to user `{}` with id `{}`", Commands.UNKNOWN, username, pid);
+        log.info("Sent {} message to user `{}` with id `{}`", Commands.UNKNOWN, username, chatId);
     }
 
     @Override

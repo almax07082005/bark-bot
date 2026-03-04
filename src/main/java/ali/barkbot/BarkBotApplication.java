@@ -5,6 +5,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 
+// TODO вынести бизнес конфиги в бд
+
 @SpringBootApplication
 public class BarkBotApplication {
     static void main(String[] args) {

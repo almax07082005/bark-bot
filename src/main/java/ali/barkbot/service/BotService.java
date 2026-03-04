@@ -58,16 +58,25 @@ public class BotService {
                         .orTimeout(appProps.getThreadTimeoutMs(), TimeUnit.MILLISECONDS)
                         .handleAsync((result, exception) -> {
                             if (exception != null) {
+                                String userInfo = "unknown";
+                                Long userId = null;
+
+                                if (update.message() != null) {
+                                    userInfo = update.message().from().username();
+                                    userId = update.message().from().id();
+                                } else if (update.callbackQuery() != null) {
+                                    userInfo = "callback:" + update.callbackQuery().from().username();
+                                    userId = update.callbackQuery().from().id();
+                                }
+
                                 log.error("Error processing update for username {}, id: {}",
-                                        update.message().from().username(),
-                                        update.message().from().id(),
-                                        exception);
+                                        userInfo, userId, exception);
                             }
                             return result;
-                        }));
-                CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
+                        }, executorService));
             }
 
+            CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
             return UpdatesListener.CONFIRMED_UPDATES_ALL;
         };
     }

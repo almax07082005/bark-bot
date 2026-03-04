@@ -27,7 +27,7 @@ public class StartCommandHandler implements CommandHandler {
     @Override
     public void handle(Update update, TelegramBot telegramBot) {
         User user = update.message().from();
-        Long pid = user.id();
+        Long chatId = user.id();
         String username = user.username();
 
         String[] split = update.message().text().split(" ");
@@ -37,10 +37,10 @@ public class StartCommandHandler implements CommandHandler {
         }
 
         userService.save(userMapper.toEntity(user, cameFrom));
-        telegramBot.execute(BotUtils.sendMessageWithSupportButton(pid, Messages.START_MESSAGE,
+        telegramBot.execute(BotUtils.sendMessageWithSupportButton(chatId, Messages.START_MESSAGE,
                 appProps.getSupportUsername(), appProps.getSupportMessageTemplate()));
 
-        log.info("Sent {} message to user `{}` with pid `{}`", Commands.START, username, pid);
+        log.info("Sent {} message to user `{}` with chatId `{}`", Commands.START, username, chatId);
     }
 
     @Override

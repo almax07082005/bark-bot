@@ -1,6 +1,6 @@
 package ali.barkbot.entity;
 
-import ali.barkbot.model.CameFrom;
+import ali.barkbot.model.OrderStep;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -22,33 +22,44 @@ import java.time.LocalDateTime;
 @Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "users")
+@Table(name = "order_sessions")
 @Entity
-// TODO add what commands have been used by user
-public class UserEntity {
+public class OrderSessionEntity {
 
     @Id
     @Column(name = "chat_id", nullable = false, unique = true, updatable = false)
     private Long chatId;
 
-    @Column(name = "username", unique = true)
-    private String username;
-
-    @Column(name = "first_name")
-    private String firstName;
-
-    @Column(name = "last_name")
-    private String lastName;
-
     @Enumerated(EnumType.STRING)
-    @Column(name = "came_from", nullable = false)
-    private CameFrom cameFrom;
+    @Column(name = "step", nullable = false, length = 50)
+    private OrderStep step;
+
+    @Column(name = "frac", length = 50)
+    private String frac;
+
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "price")
+    private Integer price;
+
+    @Column(name = "qty_user")
+    private Integer qtyUser;
+
+    @Column(name = "qty_final")
+    private Integer qtyFinal;
+
+    @Column(name = "method")
+    private String method;
+
+    @Column(name = "address", length = 500)
+    private String address;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
-    @Column(name = "accessed_at", nullable = false)
-    private LocalDateTime accessedAt;
+    @Column(name = "updated_at", nullable = false)
+    private LocalDateTime updatedAt;
 }

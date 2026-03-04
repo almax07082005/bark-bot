@@ -20,12 +20,12 @@ public class FaqCommandHandler implements CommandHandler {
 
     @Override
     public void handle(Update update, TelegramBot telegramBot) {
-        Long pid = update.message().from().id();
+        Long chatId = update.message().from().id();
         String username = update.message().from().username();
 
-        telegramBot.execute(BotUtils.sendMessageWithSupportButton(pid, Messages.FAQ_MESSAGE,
+        telegramBot.execute(BotUtils.sendMessageWithSupportButton(chatId, Messages.FAQ_MESSAGE,
                 appProps.getSupportUsername(), appProps.getSupportMessageTemplate()));
-        log.info("Sent {} message to user `{}` with id `{}`", Commands.FAQ, username, pid);
+        log.info("Sent {} message to user `{}` with id `{}`", Commands.FAQ, username, chatId);
     }
 
     @Override

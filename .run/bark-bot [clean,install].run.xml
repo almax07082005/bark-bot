@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
     <configuration default="false" name="bark-bot [clean,install]" type="MavenRunConfiguration" factoryName="Maven"
-                   activateToolWindowBeforeRun="false" nameIsGenerated="true">
+                   nameIsGenerated="true">
         <MavenSettings>
             <option name="myGeneralSettings"/>
             <option name="myRunnerSettings"/>

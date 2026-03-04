@@ -7,5 +7,6 @@ public final class Commands {
 
     public static final String START = "/start";
     public static final String FAQ = "/faq";
+    public static final String ORDER = "/order";
     public static final String UNKNOWN = "unknown";
 }

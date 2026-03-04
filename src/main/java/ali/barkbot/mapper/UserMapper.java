@@ -11,7 +11,7 @@ import org.mapstruct.MappingTarget;
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface UserMapper {
 
-    @Mapping(target = "pid", expression = "java(user.id())")
+    @Mapping(target = "chatId", expression = "java(user.id())")
     @Mapping(target = "username", expression = "java(user.username())")
     @Mapping(target = "firstName", expression = "java(user.firstName())")
     @Mapping(target = "lastName", expression = "java(user.lastName())")
@@ -19,7 +19,7 @@ public interface UserMapper {
     @Mapping(target = "accessedAt", ignore = true)
     UserEntity toEntity(User user, CameFrom cameFrom);
 
-    @Mapping(target = "pid", ignore = true)
+    @Mapping(target = "chatId", ignore = true)
     @Mapping(target = "cameFrom", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "accessedAt", ignore = true)

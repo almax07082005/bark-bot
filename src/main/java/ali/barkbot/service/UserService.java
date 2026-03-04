@@ -14,7 +14,7 @@ public class UserService {
     private final UserMapper userMapper;
 
     public void save(UserEntity user) {
-        userRepository.findById(user.getPid())
+        userRepository.findById(user.getChatId())
                 .ifPresentOrElse(
                         existingUser -> {
                             userMapper.updateEntity(existingUser, user);

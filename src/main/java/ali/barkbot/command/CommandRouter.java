@@ -3,6 +3,7 @@ package ali.barkbot.command;
 import ali.barkbot.constants.Commands;
 import ali.barkbot.model.CameFrom;
 import ali.barkbot.model.CommandString;
+import ali.barkbot.service.OrderFlowService;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.Update;
 import lombok.RequiredArgsConstructor;
@@ -16,9 +17,20 @@ public class CommandRouter {
 
     private final CommandRegistry commandRegistry;
     private final CommandHandler unknown;
+    private final OrderFlowService orderFlowService;
 
     public void route(Update update, TelegramBot telegramBot) {
-        CommandString commandString = extractCommand(update);
+        if (update.callbackQuery() != null) {
+            orderFlowService.handleCallback(update, telegramBot);
+            return;
+        }
+        if (update.message() == null || update.message().text() == null) {
+            return;
+        }
+
+        String text = update.message().text();
+        Long chatId = update.message().from().id();
+        CommandString commandString = extractCommand(text);
 
         if (commandString != null) {
             commandRegistry.getHandler(commandString.command())
@@ -33,18 +45,19 @@ public class CommandRouter {
                                 unknown.handle(update, telegramBot);
                             }
                     );
-        } else {
-            log.debug("No command found in message, using unknown handler");
-            unknown.handle(update, telegramBot);
+            return;
         }
+
+        if (orderFlowService.hasActiveSession(chatId)) {
+            orderFlowService.handleText(update, telegramBot);
+            return;
+        }
+
+        log.debug("No command found in message, using unknown handler");
+        unknown.handle(update, telegramBot);
     }
 
-    private CommandString extractCommand(Update update) {
-        if (update.message() == null || update.message().text() == null) {
-            return null;
-        }
-
-        String text = update.message().text();
+    private CommandString extractCommand(String text) {
         if (!text.startsWith("/")) {
             return null;
         }
