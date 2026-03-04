@@ -13,17 +13,6 @@ services:
       - '${DATASOURCE_HOST_PORT}:${DATASOURCE_CONTAINER_PORT}'
     volumes:
       - 'bark-bot-db-volume:/var/lib/postgresql'
-    restart: always
-
-  bark-bot-app:
-    container_name: 'bark-bot-app'
-    tty: true
-    image: 'almaxgood/bark-bot:latest'
-    env_file:
-      - .env
-    depends_on:
-      - bark-bot-db
-    restart: always
 
 volumes:
   bark-bot-db-volume:

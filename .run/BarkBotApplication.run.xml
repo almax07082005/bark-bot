@@ -11,7 +11,8 @@
         </selectedOptions>
         <option name="SPRING_BOOT_MAIN_CLASS" value="ali.barkbot.BarkBotApplication"/>
         <method v="2">
-            <option name="RunConfigurationTask" enabled="true" run_configuration_name="compose.yaml: Compose Deployment"
+            <option name="RunConfigurationTask" enabled="true"
+                    run_configuration_name="compose-local.yaml: Compose Deployment"
                     run_configuration_type="docker-deploy"/>
             <option name="RunConfigurationTask" enabled="true" run_configuration_name="bark-bot [clean,install]"
                     run_configuration_type="MavenRunConfiguration"/>
