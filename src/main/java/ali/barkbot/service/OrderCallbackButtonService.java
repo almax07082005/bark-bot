@@ -63,6 +63,7 @@ public class OrderCallbackButtonService {
                 repository.findById("e_frac").orElseThrow(),
                 repository.findById("e_qty").orElseThrow(),
                 repository.findById("e_del").orElseThrow(),
+                repository.findById("e_phone").orElseThrow(),
                 repository.findById("e_back").orElseThrow()
         );
 

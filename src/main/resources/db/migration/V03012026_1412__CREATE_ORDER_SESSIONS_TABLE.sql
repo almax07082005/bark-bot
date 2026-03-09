@@ -8,6 +8,7 @@ CREATE TABLE order_sessions (
     qty_final  INT,
     method     VARCHAR(255),
     address    VARCHAR(500),
+    phone      VARCHAR(12),
     created_at TIMESTAMP   NOT NULL DEFAULT now(),
     updated_at TIMESTAMP   NOT NULL DEFAULT now()
 );

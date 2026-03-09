@@ -55,6 +55,9 @@ public class OrderSessionEntity {
     @Column(name = "address", length = 500)
     private String address;
 
+    @Column(name = "phone", length = 12)
+    private String phone;
+
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;

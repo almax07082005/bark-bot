@@ -179,14 +179,14 @@ public final class Messages {
     public static final String ORDER_ASK_QUANTITY = """
             **Сколько мешков 60 л нужно (примерно)?**
             
-            Мы автоматически добавим **+10% запас** на усадку/неровности слоя.
+            Мы автоматически добавим **+5% запас** на усадку/неровности слоя.
             Пример: 20
             """;
 
     public static final String ORDER_QUANTITY_CONFIRMED = """
             ✅ Принято: **%d мешков**
             
-            С запасом +10%% получится: **%d мешков**
+            С запасом +5%% получится: **%d мешков**
             """;
 
     public static final String ORDER_QUANTITY_ERROR_NOT_NUMBER = """
@@ -223,9 +223,10 @@ public final class Messages {
             
             Фракция: %s см (%s)
             Количество: %d мешков (60 л)
-            Запас +10%%: добавлено к %d мешкам
+            Запас +5%%: добавлено к %d мешкам
             Получение: %s
             Адрес (если доставка): %s
+            Телефон: %s
             """;
 
     public static final String ORDER_CONFIRM_FOOTER = """
@@ -240,6 +241,23 @@ public final class Messages {
             ❌ Ок, отменил оформление.
             
             Если захотите оформить снова — используйте команду **/order**.
+            """;
+
+    public static final String ORDER_ASK_PHONE = """
+            📞 **Укажите номер телефона для связи.**
+            
+            Пример: +79991234567 или 89991234567
+            """;
+
+    public static final String ORDER_PHONE_CONFIRMED = """
+            ✅ Телефон принят: **%s**
+            """;
+
+    public static final String ORDER_PHONE_ERROR = """
+            Пожалуйста, введите корректный номер телефона.
+            Номер должен начинаться с **+7** или **8** и содержать **10 цифр** после него.
+            
+            Пример: +79991234567 или 89991234567
             """;
 
     public static final String ORDER_ADDRESS_NONE = "—";

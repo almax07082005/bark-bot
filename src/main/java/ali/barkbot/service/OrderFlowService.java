@@ -29,6 +29,7 @@ import java.util.regex.Pattern;
 public class OrderFlowService {
 
     private static final Pattern NUMERIC = Pattern.compile("\\d+");
+    private static final Pattern PHONE = Pattern.compile("^(\\+7|8)\\d{10}$");
     private static final int MIN_QTY = 1;
     private static final int MAX_QTY = 999;
     private static final int MIN_ADDRESS_LEN = 5;
@@ -107,14 +108,14 @@ public class OrderFlowService {
         DeliveryPayloadDto payload = callbackButtonService.toDeliveryPayload(button);
         boolean isPickup = Buttons.DELIVERY_METHOD_PICKUP.equals(payload.method());
 
-        OrderStep nextStep = isPickup ? OrderStep.CONFIRMATION : OrderStep.ADDRESS;
+        OrderStep nextStep = isPickup ? OrderStep.PHONE : OrderStep.ADDRESS;
         String address = isPickup ? Messages.ORDER_ADDRESS_NONE : null;
 
         DeliverySelectionDto selection = new DeliverySelectionDto(nextStep, payload.method(), address);
         orderSessionMapper.withDeliverySelected(session, selection);
         sessionService.update(session);
         if (isPickup) {
-            showConfirmation(chatId, session, bot);
+            bot.execute(BotUtils.sendMessage(chatId, Messages.ORDER_ASK_PHONE));
         } else {
             bot.execute(BotUtils.sendMessage(chatId, Messages.ORDER_ASK_ADDRESS));
         }
@@ -134,6 +135,7 @@ public class OrderFlowService {
             case DELIVERY_METHOD ->
                     bot.execute(BotUtils.sendMessageWithKeyboardMarkup(chatId, Messages.ORDER_ASK_DELIVERY,
                             callbackButtonService.buildDeliveryKeyboard()));
+            case PHONE -> bot.execute(BotUtils.sendMessage(chatId, Messages.ORDER_ASK_PHONE));
             case CONFIRMATION -> showConfirmation(chatId, session, bot);
             default -> log.warn("Unknown edit target: {}", payload.target());
         }
@@ -166,7 +168,7 @@ public class OrderFlowService {
                     bot.execute(BotUtils.sendMessage(chatId, Messages.ORDER_QUANTITY_ERROR_RANGE));
                     return;
                 }
-                int qtyFinal = (int) Math.ceil(qty * 1.1);
+                int qtyFinal = (int) Math.ceil(qty * 1.05);
 
                 QuantityEntryDto quantityEntry = new QuantityEntryDto(qty, qtyFinal);
                 orderSessionMapper.withQuantityEntered(session, quantityEntry);
@@ -185,6 +187,16 @@ public class OrderFlowService {
                 }
                 orderSessionMapper.withAddressEntered(session, text);
                 sessionService.update(session);
+                bot.execute(BotUtils.sendMessage(chatId, Messages.ORDER_ASK_PHONE));
+            }
+            case PHONE -> {
+                if (!PHONE.matcher(text).matches()) {
+                    bot.execute(BotUtils.sendMessage(chatId, Messages.ORDER_PHONE_ERROR));
+                    return;
+                }
+                orderSessionMapper.withPhoneEntered(session, text);
+                sessionService.update(session);
+                bot.execute(BotUtils.sendMessage(chatId, Messages.ORDER_PHONE_CONFIRMED.formatted(text)));
                 showConfirmation(chatId, session, bot);
             }
         }
@@ -197,7 +209,8 @@ public class OrderFlowService {
                 session.getQtyFinal(),
                 session.getQtyUser(),
                 session.getMethod(),
-                session.getAddress() != null ? session.getAddress() : Messages.ORDER_ADDRESS_NONE
+                session.getAddress() != null ? session.getAddress() : Messages.ORDER_ADDRESS_NONE,
+                session.getPhone() != null ? session.getPhone() : Messages.ORDER_ADDRESS_NONE
         );
         String fullText = Messages.ORDER_CONFIRM_HEADER + "\n\n" + body + "\n\n" + Messages.ORDER_CONFIRM_FOOTER;
         String encoded = BotUtils.encodeOrderTextForDeepLink(body);

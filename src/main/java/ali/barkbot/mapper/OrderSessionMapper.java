@@ -21,8 +21,11 @@ public interface OrderSessionMapper {
     @Mapping(target = "step", expression = "java(OrderStep.DELIVERY_METHOD)")
     void withQuantityEntered(@MappingTarget OrderSessionEntity target, QuantityEntryDto dto);
 
-    @Mapping(target = "step", expression = "java(OrderStep.CONFIRMATION)")
+    @Mapping(target = "step", expression = "java(OrderStep.PHONE)")
     void withAddressEntered(@MappingTarget OrderSessionEntity target, String address);
+
+    @Mapping(target = "step", expression = "java(OrderStep.CONFIRMATION)")
+    void withPhoneEntered(@MappingTarget OrderSessionEntity target, String phone);
 
     void withStep(@MappingTarget OrderSessionEntity target, OrderStep step);
 }

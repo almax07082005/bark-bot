@@ -71,6 +71,9 @@ VALUES ('e_menu', 'EDIT', '✏️ Изменить', '{
        ('e_del', 'EDIT', '🚚 Получение/адрес', '{
          "target": "DELIVERY_METHOD"
        }'),
+       ('e_phone', 'EDIT', '📞 Телефон', '{
+         "target": "PHONE"
+       }'),
        ('e_back', 'EDIT', '↩️ Назад', '{
          "target": "CONFIRMATION"
        }');

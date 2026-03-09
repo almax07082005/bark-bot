@@ -5,6 +5,7 @@ public enum OrderStep {
     QUANTITY,
     DELIVERY_METHOD,
     ADDRESS,
+    PHONE,
     CONFIRMATION,
     EDIT_MENU
 }
