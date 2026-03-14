@@ -13,5 +13,5 @@
 
 1. Settings → Tools → Actions on Save → Reformat code + Optimize imports
 2. Commit window → Commit settings → Reformat code + Optimize imports
-3. Copy `.env.example` to `.env` to root project folder and fill in the values
+3. Copy `src/main/resources/.env.example` to `.env` in the project root and fill in the values
 4. Check configurations imported from `.run` folder
