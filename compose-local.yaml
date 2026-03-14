@@ -14,5 +14,42 @@ services:
     volumes:
       - 'bark-bot-db-volume:/var/lib/postgresql'
 
+  elasticsearch:
+    container_name: 'bark-bot-elasticsearch'
+    tty: true
+    image: 'docker.elastic.co/elasticsearch/elasticsearch:8.17.4'
+    environment:
+      - 'discovery.type=single-node'
+      - 'xpack.security.enabled=false'
+      - 'xpack.security.http.ssl.enabled=false'
+    ports:
+      - '9200:9200'
+    volumes:
+      - 'bark-bot-elasticsearch-volume:/usr/share/elasticsearch/data'
+
+  logstash:
+    container_name: 'bark-bot-logstash'
+    tty: true
+    image: 'docker.elastic.co/logstash/logstash:8.17.4'
+    depends_on:
+      - elasticsearch
+    ports:
+      - '5001:5001'
+    volumes:
+      - './logstash/pipeline/logstash-local.conf:/usr/share/logstash/pipeline/logstash.conf:ro'
+      - './logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro'
+
+  kibana:
+    container_name: 'bark-bot-kibana'
+    tty: true
+    image: 'docker.elastic.co/kibana/kibana:8.17.4'
+    depends_on:
+      - elasticsearch
+    environment:
+      - 'ELASTICSEARCH_HOSTS=http://elasticsearch:9200'
+    ports:
+      - '5601:5601'
+
 volumes:
   bark-bot-db-volume:
+  bark-bot-elasticsearch-volume:

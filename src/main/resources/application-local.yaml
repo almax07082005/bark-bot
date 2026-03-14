@@ -21,3 +21,6 @@ app:
   thread-timeout-ms: ${THREAD_TIMEOUT_MS}
   support-username: ${SUPPORT_USERNAME}
   support-message-template: ${SUPPORT_MESSAGE_TEMPLATE}
+
+logging:
+  config: classpath:logback-spring-local.xml
