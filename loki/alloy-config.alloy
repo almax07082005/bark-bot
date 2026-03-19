@@ -1,0 +1,47 @@
+// Discover running Docker containers
+discovery.docker "local" {
+  host            = "unix:///var/run/docker.sock"
+  refresh_interval = "5s"
+}
+
+// Convert Docker metadata into useful Loki labels
+discovery.relabel "docker_labels" {
+  targets = discovery.docker.local.targets
+
+  // container_name: strip leading '/' from Docker container name
+  rule {
+    source_labels = ["__meta_docker_container_name"]
+    regex         = "/(.*)"
+    target_label  = "container_name"
+    replacement   = "$1"
+  }
+
+  // service_name: prefer docker compose service label when present
+  rule {
+    source_labels = ["__meta_docker_container_label_com_docker_compose_service"]
+    target_label  = "service_name"
+  }
+
+  // service_name fallback: use container_name if compose service label is empty
+  rule {
+    source_labels = ["service_name", "container_name"]
+    regex         = ";(.+)"
+    target_label  = "service_name"
+    replacement   = "$1"
+  }
+}
+
+// Collect logs from discovered containers and send to Loki
+loki.source.docker "default" {
+  host       = "unix:///var/run/docker.sock"
+  targets    = discovery.relabel.docker_labels.output
+  forward_to = [loki.write.local.receiver]
+  relabel_rules = discovery.relabel.docker_labels.rules
+}
+
+// Write logs to Loki
+loki.write "local" {
+  endpoint {
+    url = "http://loki:3100/loki/api/v1/push"
+  }
+}
